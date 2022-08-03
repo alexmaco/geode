@@ -1,34 +1,34 @@
-= shards(1)
+= geode(1)
 :date: {localdate}
-:shards_version: {shards_version}
+:geode_version: {geode_version}
 :man manual: Shards Manual
-:man source: shards {shards_version}
+:man source: geode {geode_version}
 
 == NAME
-shards - dependency manager for the Crystal Language
+geode - dependency manager for the Crystal Language
 
 == SYNOPSIS
-*shards* [_<general_options>_...] [_<command>_] [_<command_options>_...]
+*geode* [_<general_options>_...] [_<command>_] [_<command_options>_...]
 
 == DESCRIPTION
 Manages dependencies for Crystal projects and libraries with reproducible
 installs across computers and systems.
 
 == USAGE
-_shards_ requires the presence of a _shard.yml_ file in the project
+_geode_ requires the presence of a _shard.yml_ file in the project
 folder (working directory). This file describes the project and lists
 dependencies that are required to build it. See *shard.yml*(5) for more
-information on its format. A default file can be created by running _shards init_.
+information on its format. A default file can be created by running _geode init_.
 
-Running _shards install_ resolves and installs the
+Running _geode install_ resolves and installs the
 specified dependencies. The installed versions are written into a
 *shard.lock* file for using the exact same dependency versions when
-running _shards install_ again.
+running _geode install_ again.
 
 If your shard builds an application, both *shard.yml* and *shard.lock*
 should be checked into version control to provide reproducible
 dependency installs.
-If it is only a library for other shards to depend
+If it is only a library for other geode to depend
 on, *shard.lock* should _not_ be checked in, only *shard.yml*. It’s good
 advice to add it to *.gitignore*.
 
@@ -42,7 +42,7 @@ To see the available options for a particular command, use _--help_ after the co
 Builds the specified _<targets>_ in *bin* path. If no targets are specified,
 all are built.
 This command ensures all dependencies are installed, so it is not necessary
-to run *shards install* before.
+to run *geode install* before.
 +
 All _<build_options>_ following the command are delegated to *crystal build*.
 
@@ -116,7 +116,7 @@ after a command.
 == GENERAL OPTIONS
 
 --version::
-  Prints the version of _shards_.
+  Prints the version of _geode_.
 
 -h, --help::
   Prints usage synopsis.
@@ -135,30 +135,30 @@ after a command.
 
 == INSTALLATION
 Shards is usually distributed with Crystal itself. Alternatively, a
-separate _shards_ package may be available for your system.
+separate _geode_ package may be available for your system.
 
 To install from source, download or clone
 https://github.com/crystal-lang/shards[the repository] and run
-*make CRFLAGS=--release*. The compiled binary is in _bin/shards_ and
+*make CRFLAGS=--release*. The compiled binary is in _bin/geode_ and
 should be added to *PATH*.
 
 == Environment variables
 
-SHARDS_OPTS::
+GEODE_OPTS::
 Allows general options to be passed in as environment variable.
-*Example*: _SHARDS_OPTS="--no-color" shards update_
+*Example*: _GEODE_OPTS="--no-color" geode update_
 
-SHARDS_CACHE_PATH::
-Defines the cache location. In this folder, shards stores local copies of remote
+GEODE_CACHE_PATH::
+Defines the cache location. In this folder, geode stores local copies of remote
 repositories.
-Defaults to _.cache/shards_ in the home directory (_$XDG_CACHE_HOME_ or _$HOME_)
+Defaults to _.cache/geode_ in the home directory (_$XDG_CACHE_HOME_ or _$HOME_)
 or the current directory.
 
-SHARDS_INSTALL_PATH::
+GEODE_INSTALL_PATH::
 Defines the location where dependecies are installed.
 Defaults to _lib_.
 
-SHARDS_BIN_PATH::
+GEODE_BIN_PATH::
 Defines the location where executables are installed.
 Defaults to _bin_.
 
@@ -166,7 +166,7 @@ CRYSTAL_VERSION::
 Defines the crystal version that dependencies should be resolved against.
 Defaults to the output of _crystal env CRYSTAL_VERSION_.
 
-SHARDS_OVERRIDE::
+GEODE_OVERRIDE::
 Defines an alternate location of _shard.override.yml_.
 
 == Files
@@ -177,7 +177,7 @@ See *shard.yml*(5) for documentation.
 
 shard.override.yml::
 Allows overriding the source and restriction of dependencies. An alternative
-location can be configured with the env var *SHARDS_OVERRIDE*.
+location can be configured with the env var *GEODE_OVERRIDE*.
 +
 The file contains a YAML document with a single *dependencies* key. It has the
 same semantics as in *shard.yml*. Dependency configuration takes precedence over
@@ -193,11 +193,11 @@ Lockfile that stores information about the installed versions.
 If your shard builds an application, *shard.lock* should be checked into version
 control to provide reproducible dependency installs.
 +
-If it is only a library for other shards to depend on, *shard.lock* should _not_
+If it is only a library for other geode to depend on, *shard.lock* should _not_
 be checked in, only *shard.yml*. It’s good advice to add it to *.gitignore*.
 
 == REPORTING BUGS
-Report shards bugs to <https://github.com/crystal-lang/shards/issues>
+Report geode bugs to <https://github.com/crystal-lang/shards/issues>
 
 Crystal Language home page: <https://crystal-lang.org>
 

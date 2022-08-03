@@ -1,13 +1,13 @@
 '\" t
-.\"     Title: shards
+.\"     Title: geode
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.17
 .\"      Date: 2022-03-24
-.\"    Manual: Shards Manual
-.\"    Source: shards 0.17.0
+.\"    Manual: Geode Manual
+.\"    Source: geode 0.17.0
 .\"  Language: English
 .\"
-.TH "SHARDS" "1" "2022-03-24" "shards 0.17.0" "Shards Manual"
+.TH "GEODE" "1" "2022-03-24" "geode 0.17.0" "Geode Manual"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -28,30 +28,30 @@
 .  LINKSTYLE blue R < >
 .\}
 .SH "NAME"
-shards \- dependency manager for the Crystal Language
+geode \- dependency manager for the Crystal Language
 .SH "SYNOPSIS"
 .sp
-\fBshards\fP [\fI<general_options>\fP...] [\fI<command>\fP] [\fI<command_options>\fP...]
+\fBgeode\fP [\fI<general_options>\fP...] [\fI<command>\fP] [\fI<command_options>\fP...]
 .SH "DESCRIPTION"
 .sp
 Manages dependencies for Crystal projects and libraries with reproducible
 installs across computers and systems.
 .SH "USAGE"
 .sp
-\fIshards\fP requires the presence of a \fIshard.yml\fP file in the project
+\fIgeode\fP requires the presence of a \fIshard.yml\fP file in the project
 folder (working directory). This file describes the project and lists
 dependencies that are required to build it. See \fBshard.yml\fP(5) for more
-information on its format. A default file can be created by running \fIshards init\fP.
+information on its format. A default file can be created by running \fIgeode init\fP.
 .sp
-Running \fIshards install\fP resolves and installs the
+Running \fIgeode install\fP resolves and installs the
 specified dependencies. The installed versions are written into a
 \fBshard.lock\fP file for using the exact same dependency versions when
-running \fIshards install\fP again.
+running \fIgeode install\fP again.
 .sp
 If your shard builds an application, both \fBshard.yml\fP and \fBshard.lock\fP
 should be checked into version control to provide reproducible
 dependency installs.
-If it is only a library for other shards to depend
+If it is only a library for other geode to depend
 on, \fBshard.lock\fP should \fInot\fP be checked in, only \fBshard.yml\fP. It’s good
 advice to add it to \fB.gitignore\fP.
 .SH "COMMANDS"
@@ -65,7 +65,7 @@ To see the available options for a particular command, use \fI\-\-help\fP after 
 Builds the specified \fI<targets>\fP in \fBbin\fP path. If no targets are specified,
 all are built.
 This command ensures all dependencies are installed, so it is not necessary
-to run \fBshards install\fP before.
+to run \fBgeode install\fP before.
 .sp
 All \fI<build_options>\fP following the command are delegated to \fBcrystal build\fP.
 .RE
@@ -136,7 +136,7 @@ Lists the installed dependencies and their versions.
 Specifying \fI\-\-tree\fP arranges nested dependencies in a tree, instead of a flattened list.
 .RE
 .sp
-\fBlock\fP [\-\-update [<shards>...]]
+\fBlock\fP [\-\-update [<geode>...]]
 .RS 4
 Resolves dependencies and creates or updates the \fIshard.lock\fP file as per
 the \fBinstall\fP command, but never installs the dependencies.
@@ -157,13 +157,13 @@ When \fI\-\-pre\fP is specified, pre\-release versions are also considered.
 Removes unused dependencies from \fIlib\fP folder.
 .RE
 .sp
-\fBupdate\fP [<shards>...]
+\fBupdate\fP [<geode>...]
 .RS 4
 Resolves and updates all dependencies into the \fIlib\fP folder,
 whatever the locked versions in the \fIshard.lock\fP file.
 Eventually generates a new \fIshard.lock\fP file.
 .sp
-Specifying \fIshards\fP will update these dependencies only, trying to be as
+Specifying \fIgeode\fP will update these dependencies only, trying to be as
 conservative as possible with other dependencies, respecting the locked versions
 in the \fIshard.lock\fP file.
 .RE
@@ -180,7 +180,7 @@ after a command.
 .sp
 \-\-version
 .RS 4
-Prints the version of \fIshards\fP.
+Prints the version of \fIgeode\fP.
 .RE
 .sp
 \-h, \-\-help
@@ -209,27 +209,27 @@ Increases the log verbosity, printing all debug statements.
 .RE
 .SH "INSTALLATION"
 .sp
-Shards is usually distributed with Crystal itself. Alternatively, a
-separate \fIshards\fP package may be available for your system.
+Geode is usually distributed with Crystal itself. Alternatively, a
+separate \fIgeode\fP package may be available for your system.
 .sp
 To install from source, download or clone
-.URL "https://github.com/crystal\-lang/shards" "the repository" ""
+.URL "https://github.com/crystal\-lang/geode" "the repository" ""
 and run
-\fBmake CRFLAGS=\-\-release\fP. The compiled binary is in \fIbin/shards\fP and
+\fBmake CRFLAGS=\-\-release\fP. The compiled binary is in \fIbin/geode\fP and
 should be added to \fBPATH\fP.
 .SH "ENVIRONMENT VARIABLES"
 .sp
 SHARDS_OPTS
 .RS 4
 Allows general options to be passed in as environment variable.
-\fBExample\fP: \fISHARDS_OPTS="\-\-no\-color" shards update\fP
+\fBExample\fP: \fISHARDS_OPTS="\-\-no\-color" geode update\fP
 .RE
 .sp
 SHARDS_CACHE_PATH
 .RS 4
-Defines the cache location. In this folder, shards stores local copies of remote
+Defines the cache location. In this folder, geode stores local copies of remote
 repositories.
-Defaults to \fI.cache/shards\fP in the home directory (\fI$XDG_CACHE_HOME\fP or \fI$HOME\fP)
+Defaults to \fI.cache/geode\fP in the home directory (\fI$XDG_CACHE_HOME\fP or \fI$HOME\fP)
 or the current directory.
 .RE
 .sp
@@ -284,12 +284,12 @@ Lockfile that stores information about the installed versions.
 If your shard builds an application, \fBshard.lock\fP should be checked into version
 control to provide reproducible dependency installs.
 .sp
-If it is only a library for other shards to depend on, \fBshard.lock\fP should \fInot\fP
+If it is only a library for other geode to depend on, \fBshard.lock\fP should \fInot\fP
 be checked in, only \fBshard.yml\fP. It’s good advice to add it to \fB.gitignore\fP.
 .RE
 .SH "REPORTING BUGS"
 .sp
-Report shards bugs to \c
+Report geode bugs to \c
 .URL "https://github.com/crystal\-lang/shards/issues" "" ""
 .sp
 Crystal Language home page: \c

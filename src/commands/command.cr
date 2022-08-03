@@ -23,7 +23,7 @@ module Shards
       end
       @lockfile_path = File.join(@path, LOCK_FILENAME)
 
-      # If global override is defined via SHARDS_OVERRIDE env var we use that.
+      # If global override is defined via GEODE_OVERRIDE env var we use that.
       # Otherwise we check if the is a shard.override.yml file next to the shard.yml
       @override_path = Shards.global_override_filename
       unless @override_path

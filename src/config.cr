@@ -21,7 +21,7 @@ module Shards
 
   private def self.find_or_create_cache_path
     candidates = [
-      ENV["SHARDS_CACHE_PATH"]?,
+      ENV["GEODE_CACHE_PATH"]?,
       ENV["XDG_CACHE_HOME"]?.try { |cache| File.join(cache, "shards") },
       ENV["HOME"]?.try { |home| File.join(home, ".cache", "shards") },
       ENV["HOME"]?.try { |home| File.join(home, ".cache", ".shards") },
@@ -49,7 +49,7 @@ module Shards
 
   def self.install_path
     @@install_path ||= begin
-      ENV.fetch("SHARDS_INSTALL_PATH") { File.join(Dir.current, INSTALL_DIR) }
+      ENV.fetch("GEODE_INSTALL_PATH") { File.join(Dir.current, INSTALL_DIR) }
     end
   end
 
@@ -61,7 +61,7 @@ module Shards
   end
 
   def self.bin_path
-    @@bin_path ||= ENV.fetch("SHARDS_BIN_PATH") { File.join(Dir.current, "bin") }
+    @@bin_path ||= ENV.fetch("GEODE_BIN_PATH") { File.join(Dir.current, "bin") }
   end
 
   def self.bin_path=(@@bin_path : String)
@@ -75,7 +75,7 @@ module Shards
   end
 
   def self.global_override_filename
-    ENV["SHARDS_OVERRIDE"]?.try { |p| File.expand_path(p) }
+    ENV["GEODE_OVERRIDE"]?.try { |p| File.expand_path(p) }
   end
 
   def self.crystal_version

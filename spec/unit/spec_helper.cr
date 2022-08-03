@@ -1,5 +1,5 @@
-ENV["SHARDS_CACHE_PATH"] = ".shards"
-ENV["SHARDS_INSTALL_PATH"] = File.expand_path(".lib", __DIR__)
+ENV["GEODE_CACHE_PATH"] = ".shards"
+ENV["GEODE_INSTALL_PATH"] = File.expand_path(".lib", __DIR__)
 
 require "spec"
 require "../../src/config"

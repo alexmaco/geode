@@ -1195,7 +1195,7 @@ describe "install" do
     end
   end
 
-  it "uses override relative file specified in SHARDS_OVERRIDE env var" do
+  it "uses override relative file specified in GEODE_OVERRIDE env var" do
     metadata = {dependencies: {
       intermediate: "*",
     }}
@@ -1208,7 +1208,7 @@ describe "install" do
     with_shard(metadata, nil, ignored_override) do
       File.write "shard.ci.yml", to_override_yaml(ci_override)
 
-      run "shards install", env: {"SHARDS_OVERRIDE" => "shard.ci.yml"}
+      run "shards install", env: {"GEODE_OVERRIDE" => "shard.ci.yml"}
 
       assert_installed "awesome", "0.2.0", source: {git: git_url(:forked_awesome)}
       assert_locked "awesome", "0.2.0", source: {git: git_url(:forked_awesome)}
@@ -1223,7 +1223,7 @@ describe "install" do
     end
   end
 
-  it "fails if file specified in SHARDS_OVERRIDE env var does not exist" do
+  it "fails if file specified in GEODE_OVERRIDE env var does not exist" do
     metadata = {dependencies: {
       intermediate: "*",
     }}
@@ -1232,7 +1232,7 @@ describe "install" do
     }}
     with_shard(metadata, nil, ignored_override) do
       ex = expect_raises(FailedCommand) do
-        run "shards install --no-color", env: {"SHARDS_OVERRIDE" => "shard.missing.yml"}
+        run "shards install --no-color", env: {"GEODE_OVERRIDE" => "shard.missing.yml"}
       end
       ex.stdout.should contain("Missing shard.missing.yml")
     end

@@ -1,5 +1,5 @@
 ENV["PATH"] = "#{File.expand_path("../../bin", __DIR__)}#{Process::PATH_DELIMITER}#{ENV["PATH"]}"
-ENV["SHARDS_CACHE_PATH"] = ".shards"
+ENV["GEODE_CACHE_PATH"] = ".shards"
 
 require "spec"
 require "../../src/config"

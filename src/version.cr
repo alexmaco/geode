@@ -1,6 +1,6 @@
 module Shards
   VERSION    = {{ read_file("#{__DIR__}/../VERSION").chomp }}
-  BUILD_SHA1 = {{ env("SHARDS_CONFIG_BUILD_COMMIT") || "" }}
+  BUILD_SHA1 = {{ env("GEODE_CONFIG_BUILD_COMMIT") || "" }}
   {% if (t = env("SOURCE_DATE_EPOCH")) && !t.empty? %}
     BUILD_DATE = Time.unix({{t.to_i}}).to_s("%Y-%m-%d")
   {% else %}

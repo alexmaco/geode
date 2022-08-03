@@ -30,24 +30,24 @@ all: build
 
 include docs.mk
 
-build: phony bin/shards
+build: phony bin/geode
 
 clean: phony clean_docs
-	rm -f bin/shards
+	rm -f bin/geode
 
-bin/shards: $(SOURCES) $(TEMPLATES) lib
+bin/geode: $(SOURCES) $(TEMPLATES) lib
 	@mkdir -p bin
-	$(EXPORTS) $(CRYSTAL) build $(FLAGS) src/shards.cr -o bin/shards
+	$(EXPORTS) $(CRYSTAL) build $(FLAGS) src/geode.cr -o bin/geode
 
-install: bin/shards man/shards.1.gz man/shard.yml.5.gz phony
+install: bin/geode man/geode.1.gz man/shard.yml.5.gz phony
 	$(INSTALL) -m 0755 -d "$(BINDIR)" "$(MANDIR)/man1" "$(MANDIR)/man5"
-	$(INSTALL) -m 0755 bin/shards "$(BINDIR)"
-	$(INSTALL) -m 0644 man/shards.1.gz "$(MANDIR)/man1"
+	$(INSTALL) -m 0755 bin/geode "$(BINDIR)"
+	$(INSTALL) -m 0644 man/geode.1.gz "$(MANDIR)/man1"
 	$(INSTALL) -m 0644 man/shard.yml.5.gz "$(MANDIR)/man5"
 
 uninstall: phony
-	rm -f "$(BINDIR)/shards"
-	rm -f "$(MANDIR)/man1/shards.1.gz"
+	rm -f "$(BINDIR)/geode"
+	rm -f "$(MANDIR)/man1/geode.1.gz"
 	rm -f "$(MANDIR)/man5/shard.yml.5.gz"
 
 test: test_unit test_integration
@@ -55,7 +55,7 @@ test: test_unit test_integration
 test_unit: phony lib
 	$(CRYSTAL) spec ./spec/unit/
 
-test_integration: bin/shards phony
+test_integration: bin/geode phony
 	$(CRYSTAL) spec ./spec/integration/
 
 lib: shard.lock

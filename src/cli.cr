@@ -101,7 +101,7 @@ module Shards
         else
           program_name = "shards-#{args[0]}"
           if program_path = Process.find_executable(program_name)
-            run_shards_subcommand(program_path, args)
+            run_geode_subcommand(program_path, args)
           else
             display_help_and_exit(opts)
           end
@@ -113,16 +113,16 @@ module Shards
   end
 
   def self.cli_options
-    shards_opts : Array(String)
+    geode_opts : Array(String)
     {% if compare_versions(Crystal::VERSION, "1.0.0-0") > 0 %}
-      shards_opts = Process.parse_arguments(ENV.fetch("SHARDS_OPTS", ""))
+      geode_opts = Process.parse_arguments(ENV.fetch("GEODE_OPTS", ""))
     {% else %}
-      shards_opts = ENV.fetch("SHARDS_OPTS", "").split
+      geode_opts = ENV.fetch("GEODE_OPTS", "").split
     {% end %}
-    ARGV.concat(shards_opts)
+    ARGV.concat(geode_opts)
   end
 
-  def self.run_shards_subcommand(process_name, args)
+  def self.run_geode_subcommand(process_name, args)
     Process.exec(
       command: process_name,
       args: args[1..],

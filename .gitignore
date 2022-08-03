@@ -1,10 +1,10 @@
 /.crystal
 /.shards
 /lib
-/bin/shards
-/bin/shards.dwarf
+/bin/geode
+/bin/geode.dwarf
 /spec/.repositories
-/spec/.shards
+/spec/.geode
 /spec/unit/.lib
 /tmp
 /docs/*.html

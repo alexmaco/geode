@@ -1,9 +1,9 @@
 ASCIIDOC ?= asciidoctor
 
-ASCIIDOC_OPTIONS = -a shards_version=$(SHARDS_VERSION)
+ASCIIDOC_OPTIONS = -a geode_version=$(SHARDS_VERSION)
 
-MAN_FILES := man/shards.1 man/shard.yml.5
-HTML_FILES := docs/shards.html docs/shard.yml.html
+MAN_FILES := man/geode.1 man/shard.yml.5
+HTML_FILES := docs/geode.html docs/shard.yml.html
 
 SHARDS_VERSION := $(shell cat VERSION)
 SOURCE_DATE_EPOCH := $(shell (git show -s --format=%ct HEAD || stat -c "%Y" Makefile || stat -f "%m" Makefile) 2> /dev/null)
