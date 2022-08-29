@@ -1,6 +1,6 @@
 require "./command"
 
-module Shards
+module Geode
   module Commands
     class List < Command
       @tree = false
@@ -9,12 +9,12 @@ module Shards
         return unless has_dependencies?
         puts "Shards installed:"
         list(spec.dependencies)
-        list(spec.development_dependencies) if Shards.with_development?
+        list(spec.development_dependencies) if Geode.with_development?
       end
 
       private def list(dependencies, level = 1)
         dependencies.each do |dependency|
-          package = Shards.info.installed[dependency.name]?
+          package = Geode.info.installed[dependency.name]?
           unless package
             Log.debug { "#{dependency.name}: not installed" }
             raise Error.new("Dependencies aren't satisfied. Install them with 'shards install'")
@@ -30,7 +30,7 @@ module Shards
 
       # FIXME: duplicates Check#has_dependencies?
       private def has_dependencies?
-        spec.dependencies.any? || (Shards.with_development? && spec.development_dependencies.any?)
+        spec.dependencies.any? || (Geode.with_development? && spec.development_dependencies.any?)
       end
     end
   end

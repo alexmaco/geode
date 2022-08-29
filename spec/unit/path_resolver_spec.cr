@@ -1,10 +1,10 @@
 require "./spec_helper"
 
 private def resolver(name)
-  Shards::PathResolver.new(name, git_path(name))
+  Geode::PathResolver.new(name, git_path(name))
 end
 
-module Shards
+module Geode
   describe PathResolver do
     before_each do
       create_path_repository "library", "1.2.3"

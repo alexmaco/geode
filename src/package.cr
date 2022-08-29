@@ -1,7 +1,7 @@
 require "file_utils"
 require "./helpers"
 
-module Shards
+module Geode
   class Package
     getter name : String
     getter resolver : Resolver
@@ -46,7 +46,7 @@ module Shards
 
     def installed?
       return false unless File.exists?(install_path)
-      if installed = Shards.info.installed[name]?
+      if installed = Geode.info.installed[name]?
         installed.resolver == resolver && installed.version == version
       else
         false
@@ -54,7 +54,7 @@ module Shards
     end
 
     def install_path
-      File.join(Shards.install_path, name)
+      File.join(Geode.install_path, name)
     end
 
     def install
@@ -66,24 +66,24 @@ module Shards
       # link the project's lib path as the shard's lib path, so the dependency
       # can access transitive dependencies:
       unless resolver.is_a?(PathResolver)
-        lib_path = File.join(install_path, Shards::INSTALL_DIR)
-        Log.debug { "Link #{Shards.install_path} to #{lib_path}" }
+        lib_path = File.join(install_path, Geode::INSTALL_DIR)
+        Log.debug { "Link #{Geode.install_path} to #{lib_path}" }
         Dir.mkdir_p(File.dirname(lib_path))
-        target = File.join(Path.new(Shards::INSTALL_DIR).parts.map { ".." })
+        target = File.join(Path.new(Geode::INSTALL_DIR).parts.map { ".." })
         File.symlink(target, lib_path)
       end
 
-      Shards.info.installed[name] = self
-      Shards.info.save
+      Geode.info.installed[name] = self
+      Geode.info.save
     end
 
     protected def cleanup_install_directory
       Log.debug { "rm -rf #{Process.quote(install_path)}" }
-      Shards::Helpers.rm_rf(install_path)
+      Geode::Helpers.rm_rf(install_path)
     end
 
     def postinstall
-      run_script("postinstall", Shards.skip_postinstall?)
+      run_script("postinstall", Geode.skip_postinstall?)
     rescue ex : Script::Error
       cleanup_install_directory
       raise ex
@@ -101,15 +101,15 @@ module Shards
     end
 
     def install_executables
-      return if !installed? || spec.executables.empty? || Shards.skip_executables?
+      return if !installed? || spec.executables.empty? || Geode.skip_executables?
 
-      Dir.mkdir_p(Shards.bin_path)
+      Dir.mkdir_p(Geode.bin_path)
 
       spec.executables.each do |name|
-        exe_name = Shards::Helpers.exe(name)
+        exe_name = Geode::Helpers.exe(name)
         Log.debug { "Install bin/#{exe_name}" }
         source = File.join(install_path, "bin", exe_name)
-        destination = File.join(Shards.bin_path, exe_name)
+        destination = File.join(Geode.bin_path, exe_name)
 
         if File.exists?(destination)
           next if File.same?(destination, source)

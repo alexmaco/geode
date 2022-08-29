@@ -1,11 +1,11 @@
 require "./command"
 require "../molinillo_solver"
 
-module Shards
+module Geode
   module Commands
     class Install < Command
       def run
-        if Shards.frozen? && !lockfile?
+        if Geode.frozen? && !lockfile?
           raise Error.new("Missing shard.lock")
         end
 
@@ -18,11 +18,11 @@ module Shards
           solver.locks = locks.shards
         end
 
-        solver.prepare(development: Shards.with_development?)
+        solver.prepare(development: Geode.with_development?)
 
         packages = handle_resolver_errors { solver.solve }
 
-        if Shards.frozen?
+        if Geode.frozen?
           validate(packages)
         end
 
@@ -30,7 +30,7 @@ module Shards
 
         if generate_lockfile?(packages)
           write_lockfile(packages)
-        elsif !Shards.frozen?
+        elsif !Geode.frozen?
           # Touch lockfile so its mtime is bigger than that of shard.yml
           File.touch(lockfile_path)
         end
@@ -89,11 +89,11 @@ module Shards
       end
 
       private def generate_lockfile?(packages)
-        !Shards.frozen? && (!lockfile? || outdated_lockfile?(packages))
+        !Geode.frozen? && (!lockfile? || outdated_lockfile?(packages))
       end
 
       private def outdated_lockfile?(packages)
-        return true if locks.version != Shards::Lock::CURRENT_VERSION
+        return true if locks.version != Geode::Lock::CURRENT_VERSION
         return true if packages.size != locks.shards.size
 
         packages.index_by(&.name) != locks.shards.index_by(&.name)

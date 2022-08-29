@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-module Shards
+module Geode
   describe Spec do
     it "parse minimal shard" do
       spec = Spec.from_yaml("name: shards\nversion: 0.1.0\n")
@@ -98,7 +98,7 @@ module Shards
     end
 
     it "fails dependency with duplicate resolver" do
-      expect_raises Shards::ParseError, %(Duplicate resolver mapping for dependency "foo" at line 6, column 5) do
+      expect_raises Geode::ParseError, %(Duplicate resolver mapping for dependency "foo" at line 6, column 5) do
         Spec.from_yaml <<-YAML
           name: orm
           version: 1.0.0
@@ -111,7 +111,7 @@ module Shards
     end
 
     it "fails dependency with missing resolver" do
-      expect_raises Shards::ParseError, %(Missing resolver for dependency "foo" at line 4, column 3) do
+      expect_raises Geode::ParseError, %(Missing resolver for dependency "foo" at line 4, column 3) do
         Spec.from_yaml <<-YAML
           name: orm
           version: 1.0.0
@@ -180,7 +180,7 @@ module Shards
     end
 
     it "fails target missing main" do
-      expect_raises Shards::ParseError, %(Missing property "main" for target "foo" at line 4, column 3) do
+      expect_raises Geode::ParseError, %(Missing property "main" for target "foo" at line 4, column 3) do
         Spec.from_yaml <<-YAML
           name: orm
           version: 1.0.0

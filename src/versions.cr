@@ -1,4 +1,4 @@
-module Shards
+module Geode
   module Versions
     # :nodoc:
     struct Segment

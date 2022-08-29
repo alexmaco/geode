@@ -5,7 +5,7 @@ require "./dependency"
 require "./errors"
 require "./target"
 
-module Shards
+module Geode
   class Override
     def self.from_file(path, validate = false)
       path = File.join(path, OVERRIDE_FILENAME) if File.directory?(path)

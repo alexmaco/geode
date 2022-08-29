@@ -10,22 +10,22 @@ require "../../src/resolvers/*"
 require "../support/factories"
 require "../support/requirement"
 
-module Shards
+module Geode
   set_warning_log_level
 end
 
 Spec.before_each do
   clear_repositories
-  Shards::Resolver.clear_resolver_cache
-  Shards.info.reload
+  Geode::Resolver.clear_resolver_cache
+  Geode.info.reload
 end
 
 private def clear_repositories
-  Shards::Helpers.rm_rf_children(tmp_path)
-  Shards::Helpers.rm_rf(Shards.cache_path)
-  Shards::Helpers.rm_rf(Shards.install_path)
+  Geode::Helpers.rm_rf_children(tmp_path)
+  Geode::Helpers.rm_rf(Geode.cache_path)
+  Geode::Helpers.rm_rf(Geode.install_path)
 end
 
 def install_path(project, *path_names)
-  File.join(Shards.install_path, project, *path_names)
+  File.join(Geode.install_path, project, *path_names)
 end

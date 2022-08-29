@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-module Shards
+module Geode
   describe VersionReq do
     it "parses" do
       VersionReq.new("~> 1.0").patterns.should eq(["~> 1.0"])

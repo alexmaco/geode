@@ -1,7 +1,7 @@
 require "./spec_helper"
 require "../../src/override"
 
-module Shards
+module Geode
   describe Override do
     it "parses" do
       override = Override.from_yaml <<-YAML
@@ -32,7 +32,7 @@ module Shards
     end
 
     it "fails dependency with duplicate resolver" do
-      expect_raises Shards::ParseError, %(Duplicate resolver mapping for dependency "foo" at line 4, column 5) do
+      expect_raises Geode::ParseError, %(Duplicate resolver mapping for dependency "foo" at line 4, column 5) do
         Override.from_yaml <<-YAML
           dependencies:
             foo:
@@ -43,7 +43,7 @@ module Shards
     end
 
     it "fails dependency with missing resolver" do
-      expect_raises Shards::ParseError, %(Missing resolver for dependency "foo" at line 2, column 3) do
+      expect_raises Geode::ParseError, %(Missing resolver for dependency "foo" at line 2, column 3) do
         Override.from_yaml <<-YAML
           dependencies:
             foo:

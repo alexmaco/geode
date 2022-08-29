@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-module Shards
+module Geode
   describe Resolver do
     it "find resolver" do
       Resolver.find_resolver("git", "test", "file:///tmp/test")
@@ -22,10 +22,10 @@ module Shards
         create_path_repository "foo", "1.2.3"
         create_file "foo", "shard.yml", "name: foo\nname: foo\n"
 
-        resolver = Shards::PathResolver.new("foo", git_path("foo"))
+        resolver = Geode::PathResolver.new("foo", git_path("foo"))
 
         error = expect_raises(ParseError, %(Error in foo:shard.yml: duplicate attribute "name" at line 2, column 1)) do
-          resolver.spec Shards::Version.new("1.2.3")
+          resolver.spec Geode::Version.new("1.2.3")
         end
         error.resolver.should eq resolver
       end

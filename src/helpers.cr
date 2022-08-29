@@ -1,4 +1,4 @@
-module Shards::Helpers
+module Geode::Helpers
   def self.rm_rf(path : String) : Nil
     # TODO: delete this and use https://github.com/crystal-lang/crystal/pull/9903
     if !File.symlink?(path) && Dir.exists?(path)

@@ -4,7 +4,7 @@ require "../dependency"
 require "../errors"
 require "../script"
 
-module Shards
+module Geode
   abstract class Resolver
     getter name : String
     getter source : String

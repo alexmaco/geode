@@ -1,7 +1,7 @@
 require "./spec_helper"
 require "../../src/lock"
 
-module Shards
+module Geode
   describe Lock do
     it "parses" do
       create_git_repository "library", "0.1.0"

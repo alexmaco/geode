@@ -4,7 +4,7 @@ require "../versions"
 require "../logger"
 require "../helpers"
 
-module Shards
+module Geode
   abstract struct GitRef < Ref
     def full_info
       to_s
@@ -234,9 +234,9 @@ module Shards
         end
 
         if host = uri.host
-          File.join(Shards.cache_path, host, path)
+          File.join(Geode.cache_path, host, path)
         else
-          File.join(Shards.cache_path, path)
+          File.join(Geode.cache_path, path)
         end
       end
     end
@@ -289,7 +289,7 @@ module Shards
         @updated_cache = false
       end
 
-      return if Shards.local? || @updated_cache
+      return if Geode.local? || @updated_cache
       Log.info { "Fetching #{git_url}" }
 
       if cloned_repository?
@@ -341,7 +341,7 @@ module Shards
 
     private def delete_repository
       Log.debug { "rm -rf #{Process.quote(local_path)}'" }
-      Shards::Helpers.rm_rf(local_path)
+      Geode::Helpers.rm_rf(local_path)
       @origin_url = nil
     end
 
@@ -407,7 +407,7 @@ module Shards
     end
 
     private def run(command, path = local_path, capture = false)
-      if Shards.local? && !Dir.exists?(path)
+      if Geode.local? && !Dir.exists?(path)
         dependency_name = File.basename(path, ".git")
         raise Error.new("Missing repository cache for #{dependency_name.inspect}. Please run without --local to fetch it.")
       end

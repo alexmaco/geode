@@ -2,7 +2,7 @@ require "../lock"
 require "../spec"
 require "../override"
 
-module Shards
+module Geode
   abstract class Command
     getter path : String
     getter spec_path : String
@@ -25,7 +25,7 @@ module Shards
 
       # If global override is defined via GEODE_OVERRIDE env var we use that.
       # Otherwise we check if the is a shard.override.yml file next to the shard.yml
-      @override_path = Shards.global_override_filename
+      @override_path = Geode.global_override_filename
       unless @override_path
         local_override = File.join(@path, OVERRIDE_FILENAME)
         @override_path = File.exists?(local_override) ? local_override : nil
@@ -50,7 +50,7 @@ module Shards
 
     def locks
       @locks ||= if lockfile?
-                   Shards::Lock.from_file(lockfile_path)
+                   Geode::Lock.from_file(lockfile_path)
                  else
                    raise Error.new("Missing #{LOCK_FILENAME}. Please run 'shards install'")
                  end
@@ -61,7 +61,7 @@ module Shards
     end
 
     def override
-      @override ||= override_path.try { |p| Shards::Override.from_file(p) }
+      @override ||= override_path.try { |p| Geode::Override.from_file(p) }
     end
 
     def write_lockfile(packages)
@@ -70,31 +70,31 @@ module Shards
       override_path = @override_path
       override_path = File.basename(override_path) if override_path && File.dirname(override_path) == @path
 
-      Shards::Lock.write(packages, override_path, LOCK_FILENAME)
+      Geode::Lock.write(packages, override_path, LOCK_FILENAME)
     end
 
     def handle_resolver_errors
       yield
     rescue e : Molinillo::ResolverError
       Log.error { e.message }
-      raise Shards::Error.new("Failed to resolve dependencies")
+      raise Geode::Error.new("Failed to resolve dependencies")
     end
 
     def check_crystal_version(packages)
-      crystal_version = Shards::Version.new Shards.crystal_version
+      crystal_version = Geode::Version.new Geode.crystal_version
 
       packages.each do |package|
         crystal_req = MolinilloSolver.crystal_version_req(package.spec)
 
-        if !Shards::Versions.matches?(crystal_version, crystal_req)
-          Log.warn { "Shard \"#{package.name}\" may be incompatible with Crystal #{Shards.crystal_version}" }
+        if !Geode::Versions.matches?(crystal_version, crystal_req)
+          Log.warn { "Shard \"#{package.name}\" may be incompatible with Crystal #{Geode.crystal_version}" }
         end
       end
     end
 
     def touch_install_path
-      Dir.mkdir_p(Shards.install_path)
-      File.touch(Shards.install_path)
+      Dir.mkdir_p(Geode.install_path)
+      File.touch(Geode.install_path)
     end
   end
 end

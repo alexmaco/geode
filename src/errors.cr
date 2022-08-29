@@ -1,4 +1,4 @@
-module Shards
+module Geode
   class Error < ::Exception
   end
 
@@ -18,7 +18,7 @@ module Shards
 
   class InvalidLock < Error
     def initialize
-      super "Unsupported #{LOCK_FILENAME}. It was likely generated from a newer version of Shards."
+      super "Unsupported #{LOCK_FILENAME}. It was likely generated from a newer version of Geode."
     end
   end
 

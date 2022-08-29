@@ -11,12 +11,12 @@ require "../support/cli"
 require "../support/requirement"
 
 Spec.before_suite do
-  Shards::Helpers.rm_rf_children(tmp_path)
+  Geode::Helpers.rm_rf_children(tmp_path)
   setup_repositories
 end
 
 Spec.before_each do
-  Shards::Resolver.clear_resolver_cache
+  Geode::Resolver.clear_resolver_cache
 end
 
 private def setup_repositories
@@ -203,8 +203,8 @@ end
 
 def assert_installed(name, version = nil, file = __FILE__, line = __LINE__, *, git = nil, source = nil)
   assert File.exists?(install_path(name)), "expected #{name} dependency to have been installed", file, line
-  Shards::Resolver.clear_resolver_cache # Parsing Shards::Info might use cache of resolvers. Avoid it
-  info = Shards::Info.new(install_path)
+  Geode::Resolver.clear_resolver_cache # Parsing Geode::Info might use cache of resolvers. Avoid it
+  info = Geode::Info.new(install_path)
   dependency = info.installed[name]?
   assert dependency, "expected #{name} to be present in the shards.info file", file, line
 
@@ -224,7 +224,7 @@ def refute_installed(name, version = nil, file = __FILE__, line = __LINE__)
   if version
     if Dir.exists?(install_path(name))
       assert File.exists?(install_path(name, "shard.yml")), "expected shard.yml for installed #{name} dependency was not found", file, line
-      spec = Shards::Spec.from_file(install_path(name, "shard.yml"))
+      spec = Geode::Spec.from_file(install_path(name, "shard.yml"))
       spec.version.should_not eq(version), file: file, line: line
     end
   else
@@ -239,8 +239,8 @@ end
 def assert_locked(name, version = nil, file = __FILE__, line = __LINE__, *, git = nil, source = nil)
   path = File.join(application_path, "shard.lock")
   assert File.exists?(path), "expected shard.lock to have been generated", file, line
-  Shards::Resolver.clear_resolver_cache # Parsing Shards::Lock might use cache of resolvers. Avoid it
-  locks = Shards::Lock.from_file(path)
+  Geode::Resolver.clear_resolver_cache # Parsing Geode::Lock might use cache of resolvers. Avoid it
+  locks = Geode::Lock.from_file(path)
   assert lock = locks.shards.find { |d| d.name == name }, "expected #{name} dependency to have been locked", file, line
 
   if lock && version
@@ -260,19 +260,19 @@ private def source_from_named_tuple(source : NamedTuple)
   source.to_yaml.lines.last
 end
 
-private def source_from_resolver(resolver : Shards::Resolver)
+private def source_from_resolver(resolver : Geode::Resolver)
   resolver.yaml_source_entry
 end
 
 def refute_locked(name, version = nil, file = __FILE__, line = __LINE__)
   path = File.join(application_path, "shard.lock")
   assert File.exists?(path), "expected shard.lock to have been generated", file, line
-  locks = Shards::Lock.from_file(path)
+  locks = Geode::Lock.from_file(path)
   refute locks.shards.find { |d| d.name == name }, "expected #{name} dependency to not have been locked", file, line
 end
 
 def install_path(*path_names)
-  File.join(application_path, Shards::INSTALL_DIR, *path_names)
+  File.join(application_path, Geode::INSTALL_DIR, *path_names)
 end
 
 def debug(command)

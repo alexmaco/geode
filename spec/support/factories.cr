@@ -252,7 +252,7 @@ def checkout_fossil_rev(project, rev)
 end
 
 def create_shard(project, version, contents : NamedTuple? = nil)
-  spec = {name: project, version: version, crystal: Shards.crystal_version}
+  spec = {name: project, version: version, crystal: Geode.crystal_version}
   spec = spec.merge(contents) if contents
   create_file project, "shard.yml", spec.to_yaml
 end
@@ -328,7 +328,7 @@ def rel_path(project)
   "../../spec/.repositories/#{project}"
 end
 
-module Shards::Specs
+module Geode::Specs
   @@tmp_path : String?
 
   def self.tmp_path
@@ -344,17 +344,17 @@ module Shards::Specs
   def self.crystal_path
     # Memoize so each integration spec do not need to create this process.
     # If crystal is bin/crystal this also reduce the noise of Using compiled compiler at ...
-    @@crystal_path ||= "#{Shards::INSTALL_DIR}#{Process::PATH_DELIMITER}#{`#{Shards.crystal_bin} env CRYSTAL_PATH`.chomp}"
+    @@crystal_path ||= "#{Geode::INSTALL_DIR}#{Process::PATH_DELIMITER}#{`#{Geode.crystal_bin} env CRYSTAL_PATH`.chomp}"
   end
 end
 
 def tmp_path
-  Shards::Specs.tmp_path
+  Geode::Specs.tmp_path
 end
 
 def run(command, *, env = nil, clear_env = false)
   cmd_env = {
-    "CRYSTAL_PATH" => Shards::Specs.crystal_path,
+    "CRYSTAL_PATH" => Geode::Specs.crystal_path,
   }
   if clear_env
     cmd_env["CRYSTAL_OPTS"] = ""

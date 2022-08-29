@@ -1,7 +1,7 @@
 require "./command"
 require "ecr/macros"
 
-module Shards
+module Geode
   module Commands
     class Init < Command
       def run
@@ -29,7 +29,7 @@ module Shards
       end
 
       private def shard_path
-        File.join(path, Shards::SPEC_FILENAME)
+        File.join(path, Geode::SPEC_FILENAME)
       end
     end
   end

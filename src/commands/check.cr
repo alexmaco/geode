@@ -1,21 +1,21 @@
 require "./command"
 require "../versions"
 
-module Shards
+module Geode
   module Commands
     class Check < Command
       def run
         if has_dependencies?
           locks # ensures that lockfile exists
           verify(spec.dependencies)
-          verify(spec.development_dependencies) if Shards.with_development?
+          verify(spec.development_dependencies) if Geode.with_development?
         end
 
         Log.info { "Dependencies are satisfied" }
       end
 
       private def has_dependencies?
-        spec.dependencies.any? || (Shards.with_development? && spec.development_dependencies.any?)
+        spec.dependencies.any? || (Geode.with_development? && spec.development_dependencies.any?)
       end
 
       private def verify(dependencies)

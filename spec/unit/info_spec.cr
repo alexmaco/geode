@@ -1,9 +1,9 @@
 require "./spec_helper"
 
-module Shards
+module Geode
   describe Info do
     before_each do
-      Helpers.rm_rf(Shards.install_path)
+      Helpers.rm_rf(Geode.install_path)
     end
 
     it "create with default install directory" do

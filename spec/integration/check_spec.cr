@@ -25,7 +25,7 @@ describe "check" do
   it "fails without lockfile" do
     with_shard({dependencies: {web: "*"}}) do
       ex = expect_raises(FailedCommand) { run "shards check --no-color" }
-      ex.stdout.should contain("Missing #{Shards::LOCK_FILENAME}")
+      ex.stdout.should contain("Missing #{Geode::LOCK_FILENAME}")
       ex.stderr.should be_empty
     end
   end

@@ -1,6 +1,6 @@
 require "./spec_helper"
 
-module Shards
+module Geode
   describe Dependency do
     it "parse for path" do
       dep = parse_dependency({foo: {path: "/foo"}})
@@ -79,7 +79,7 @@ private def parse_dependency(dep)
   pull.read_stream do
     pull.read_document do
       pull.read_mapping do
-        Shards::Dependency.from_yaml(pull)
+        Geode::Dependency.from_yaml(pull)
       end
     end
   end

@@ -1,6 +1,6 @@
 require "./command"
 
-module Shards
+module Geode
   module Commands
     class Build < Command
       def run(targets, options)
@@ -8,9 +8,9 @@ module Shards
           raise Error.new("Targets not defined in #{SPEC_FILENAME}")
         end
 
-        unless Dir.exists?(Shards.bin_path)
-          Log.debug { "mkdir #{Shards.bin_path}" }
-          Dir.mkdir(Shards.bin_path)
+        unless Dir.exists?(Geode.bin_path)
+          Log.debug { "mkdir #{Geode.bin_path}" }
+          Dir.mkdir(Geode.bin_path)
         end
 
         if targets.empty?
@@ -31,20 +31,20 @@ module Shards
 
         args = [
           "build",
-          "-o", File.join(Shards.bin_path, target.name),
+          "-o", File.join(Geode.bin_path, target.name),
           target.main,
         ]
-        unless Shards.colors?
+        unless Geode.colors?
           args << "--no-color"
         end
-        if Shards::Log.level <= ::Log::Severity::Debug
+        if Geode::Log.level <= ::Log::Severity::Debug
           args << "--verbose"
         end
         options.each { |option| args << option }
-        Log.debug { "#{Shards.crystal_bin} #{args.join(' ')}" }
+        Log.debug { "#{Geode.crystal_bin} #{args.join(' ')}" }
 
         error = IO::Memory.new
-        status = Process.run(Shards.crystal_bin, args: args, output: Process::Redirect::Inherit, error: error)
+        status = Process.run(Geode.crystal_bin, args: args, output: Process::Redirect::Inherit, error: error)
         if status.success?
           STDERR.puts error unless error.empty?
         else

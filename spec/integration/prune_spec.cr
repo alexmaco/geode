@@ -21,7 +21,7 @@ describe "prune" do
   it "removes unused dependencies" do
     Dir.cd(application_path) { run "shards prune" }
     installed_dependencies.should eq(["web"])
-    Shards::Info.new(install_path).installed.keys.should eq(["web"])
+    Geode::Info.new(install_path).installed.keys.should eq(["web"])
   end
 
   it "removes directories" do

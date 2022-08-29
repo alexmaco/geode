@@ -1,7 +1,7 @@
 require "./command"
 require "../molinillo_solver"
 
-module Shards
+module Geode
   module Commands
     class Lock < Command
       def run(shards : Array(String), print = false, update = false)
@@ -22,13 +22,13 @@ module Shards
           end
         end
 
-        solver.prepare(development: Shards.with_development?)
+        solver.prepare(development: Geode.with_development?)
 
         packages = handle_resolver_errors { solver.solve }
         return if packages.empty?
 
         if print
-          Shards::Lock.write(packages, @override_path, STDOUT)
+          Geode::Lock.write(packages, @override_path, STDOUT)
         else
           write_lockfile(packages)
         end

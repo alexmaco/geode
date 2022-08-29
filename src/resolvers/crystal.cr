@@ -1,4 +1,4 @@
-module Shards
+module Geode
   class CrystalResolver < Resolver
     INSTANCE = new("crystal", "")
 
@@ -7,7 +7,7 @@ module Shards
     end
 
     def available_releases : Array(Version)
-      [Version.new Shards.crystal_version]
+      [Version.new Geode.crystal_version]
     end
 
     def read_spec(version : Version) : String?

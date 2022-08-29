@@ -2,7 +2,7 @@ require "./ext/yaml"
 require "./requirement"
 require "./resolvers/resolver"
 
-module Shards
+module Geode
   class Dependency
     property name : String
     property resolver : Resolver

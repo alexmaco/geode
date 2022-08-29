@@ -5,7 +5,7 @@ require "./dependency"
 require "./errors"
 require "./target"
 
-module Shards
+module Geode
   class Spec
     class Author
       property name : String

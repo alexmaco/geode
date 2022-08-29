@@ -1,13 +1,13 @@
 require "molinillo"
 require "./package"
 
-module Shards
+module Geode
   class MolinilloSolver
     setter locks : Array(Package)?
     @solution : Array(Package)?
     @prereleases : Bool
 
-    include Molinillo::SpecificationProvider(Shards::Dependency, Shards::Spec)
+    include Molinillo::SpecificationProvider(Geode::Dependency, Geode::Spec)
     include Molinillo::UI
 
     def initialize(@spec : Spec, @override : Override? = nil, *, prereleases = false)
@@ -30,7 +30,7 @@ module Shards
 
         spec = begin
           dep.resolver.spec(lock.version)
-        rescue ex : Shards::Error
+        rescue ex : Geode::Error
           # If the locked version is not available in the changed source,
           # `shards update` should be used instead of `shards install`.
           message = String.build do |io|
@@ -40,7 +40,7 @@ module Shards
             end
             io << ".\n\nPlease run `shards update`"
           end
-          raise Shards::Error.new(message, cause: ex)
+          raise Geode::Error.new(message, cause: ex)
         end
 
         add_lock base, lock_index, apply_overrides(spec.dependencies)
@@ -48,7 +48,7 @@ module Shards
     end
 
     private def prefetch_local_caches(deps)
-      return unless Shards.jobs > 1
+      return unless Geode.jobs > 1
 
       count = 0
       active = Atomic.new(0)
@@ -56,7 +56,7 @@ module Shards
       deps.each do |dep|
         count += 1
         active.add(1)
-        while active.get > Shards.jobs
+        while active.get > Geode.jobs
           sleep 0.1
         end
         spawn do
@@ -158,11 +158,11 @@ module Shards
       sorted_vertices[vertex.name] = vertex
     end
 
-    def name_for(spec : Shards::Spec)
+    def name_for(spec : Geode::Spec)
       spec.resolver.not_nil!.name
     end
 
-    def name_for(dependency : Shards::Dependency)
+    def name_for(dependency : Geode::Dependency)
       dependency.name
     end
 
@@ -187,7 +187,7 @@ module Shards
       end
     end
 
-    def on_override(dependency : Dependency | Shards::Spec) : Dependency?
+    def on_override(dependency : Dependency | Geode::Spec) : Dependency?
       @override.try(&.dependencies.find { |o| o.name == dependency.name })
     end
 
@@ -207,7 +207,7 @@ module Shards
       apply_overrides(specification.dependencies)
     end
 
-    def self.crystal_version_req(specification : Shards::Spec)
+    def self.crystal_version_req(specification : Geode::Spec)
       crystal_pattern =
         if crystal_version = specification.crystal
           if crystal_version =~ /^\d+\.\d+(\.\d+)?$/

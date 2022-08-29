@@ -1,4 +1,4 @@
-module Shards
+module Geode
   class Target
     property name : String
     property main : String

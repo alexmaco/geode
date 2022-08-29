@@ -1,25 +1,25 @@
 def branch(name)
-  Shards::GitBranchRef.new(name)
+  Geode::GitBranchRef.new(name)
 end
 
 def commit(sha1)
-  Shards::GitCommitRef.new(sha1)
+  Geode::GitCommitRef.new(sha1)
 end
 
 def hg_bookmark(name)
-  Shards::HgBookmarkRef.new(name)
+  Geode::HgBookmarkRef.new(name)
 end
 
 def hg_branch(name)
-  Shards::HgBranchRef.new(name)
+  Geode::HgBranchRef.new(name)
 end
 
 def fossil_branch(name)
-  Shards::FossilBranchRef.new(name)
+  Geode::FossilBranchRef.new(name)
 end
 
 def version(version)
-  Shards::Version.new(version)
+  Geode::Version.new(version)
 end
 
 def versions(versions)
@@ -27,5 +27,5 @@ def versions(versions)
 end
 
 def version_req(pattern)
-  Shards::VersionReq.new(pattern)
+  Geode::VersionReq.new(pattern)
 end

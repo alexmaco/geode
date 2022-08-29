@@ -1,15 +1,15 @@
 require "./spec_helper"
 
 private def shard_path
-  File.join(application_path, Shards::SPEC_FILENAME)
+  File.join(application_path, Geode::SPEC_FILENAME)
 end
 
 describe "init" do
   it "creates shard.yml" do
     Dir.cd(application_path) do
       run "shards init"
-      File.exists?(File.join(application_path, Shards::SPEC_FILENAME)).should be_true
-      spec = Shards::Spec.from_file(shard_path)
+      File.exists?(File.join(application_path, Geode::SPEC_FILENAME)).should be_true
+      spec = Geode::Spec.from_file(shard_path)
       spec.name.should eq("integration")
       spec.version.should eq(version "0.1.0")
     end
@@ -19,7 +19,7 @@ describe "init" do
     Dir.cd(application_path) do
       File.write(shard_path, "")
       ex = expect_raises(FailedCommand) { run "shards init --no-color" }
-      ex.stdout.should contain("#{Shards::SPEC_FILENAME} already exists")
+      ex.stdout.should contain("#{Geode::SPEC_FILENAME} already exists")
       File.read(shard_path).should be_empty
     end
   end

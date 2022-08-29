@@ -2,7 +2,7 @@ Spec.before_each do
   path = application_path
 
   if File.exists?(path)
-    Shards::Helpers.rm_rf_children(path)
+    Geode::Helpers.rm_rf_children(path)
   else
     Dir.mkdir_p(path)
   end
@@ -86,7 +86,7 @@ def to_lock_yaml(lock)
   return unless lock
 
   YAML.dump({
-    version: Shards::Lock::CURRENT_VERSION,
+    version: Geode::Lock::CURRENT_VERSION,
     shards:  lock.to_a.to_h do |name, data|
       if data.is_a?(NamedTuple)
         git = data[:git]
@@ -100,13 +100,13 @@ def to_lock_yaml(lock)
   })
 end
 
-module Shards::Specs
+module Geode::Specs
   @@application_path : String?
 
   def self.application_path
     @@application_path ||= File.expand_path("../../tmp/integration", __DIR__).tap do |path|
       if File.exists?(path)
-        Shards::Helpers.rm_rf_children(path)
+        Geode::Helpers.rm_rf_children(path)
       else
         Dir.mkdir_p(path)
       end
@@ -115,5 +115,5 @@ module Shards::Specs
 end
 
 def application_path
-  Shards::Specs.application_path
+  Geode::Specs.application_path
 end

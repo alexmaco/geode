@@ -1,6 +1,6 @@
 require "./info"
 
-module Shards
+module Geode
   SPEC_FILENAME     = "shard.yml"
   LOCK_FILENAME     = "shard.lock"
   OVERRIDE_FILENAME = "shard.override.yml"

@@ -2,7 +2,7 @@ require "./ext/yaml"
 require "./dependency"
 require "./package"
 
-module Shards
+module Geode
   class Lock
     property version : String
     property shards : Array(Package)

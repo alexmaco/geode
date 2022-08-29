@@ -52,7 +52,7 @@ describe "install" do
   it "fails when spec is missing" do
     Dir.cd(application_path) do
       ex = expect_raises(FailedCommand) { run "shards install --no-color" }
-      ex.stdout.should contain("Missing #{Shards::SPEC_FILENAME}")
+      ex.stdout.should contain("Missing #{Geode::SPEC_FILENAME}")
       ex.stdout.should contain("Please run 'shards init'")
     end
   end
@@ -61,10 +61,10 @@ describe "install" do
     metadata = {dependencies: {web: "*"}}
     with_shard(metadata) do
       run "shards install"
-      File.delete "#{Shards::INSTALL_DIR}/.shards.info"
-      File.touch "#{Shards::INSTALL_DIR}/web/foo.txt"
+      File.delete "#{Geode::INSTALL_DIR}/.shards.info"
+      File.touch "#{Geode::INSTALL_DIR}/web/foo.txt"
       run "shards install"
-      File.exists?("#{Shards::INSTALL_DIR}/web/foo.txt").should be_false
+      File.exists?("#{Geode::INSTALL_DIR}/web/foo.txt").should be_false
       assert_installed "web", "2.1.0"
     end
   end
@@ -73,7 +73,7 @@ describe "install" do
     metadata = {dependencies: {web: {path: rel_path(:web)}}}
     with_shard(metadata) do
       run "shards install"
-      File.delete "#{Shards::INSTALL_DIR}/.shards.info"
+      File.delete "#{Geode::INSTALL_DIR}/.shards.info"
       run "shards install"
       assert_installed "web", "2.1.0"
     end
@@ -82,10 +82,10 @@ describe "install" do
   it "deletes old .sha1 files" do
     metadata = {dependencies: {web: "*"}}
     with_shard(metadata) do
-      Dir.mkdir_p(Shards::INSTALL_DIR)
-      File.touch("#{Shards::INSTALL_DIR}/web.sha1")
+      Dir.mkdir_p(Geode::INSTALL_DIR)
+      File.touch("#{Geode::INSTALL_DIR}/web.sha1")
       run "shards install"
-      File.exists?("#{Shards::INSTALL_DIR}/web.sha1").should be_false
+      File.exists?("#{Geode::INSTALL_DIR}/web.sha1").should be_false
     end
   end
 
@@ -393,7 +393,7 @@ describe "install" do
       })
 
       run "shards install"
-      Shards::Lock.from_file("shard.lock").version.should eq(Shards::Lock::CURRENT_VERSION)
+      Geode::Lock.from_file("shard.lock").version.should eq(Geode::Lock::CURRENT_VERSION)
       assert_locked "web", "2.1.0", git: git_commits(:web).first
     end
   end
@@ -654,7 +654,7 @@ describe "install" do
       mtime = File.info("shard.lock").modification_time
       run "shards install"
       File.info("shard.lock").modification_time.should be >= mtime
-      Shards::Lock.from_file("shard.lock").version.should eq(Shards::Lock::CURRENT_VERSION)
+      Geode::Lock.from_file("shard.lock").version.should eq(Geode::Lock::CURRENT_VERSION)
     end
   end
 
@@ -699,7 +699,7 @@ describe "install" do
   it "runs postinstall with transitive dependencies" do
     with_shard({dependencies: {transitive: "*"}}) do
       run "shards install"
-      binary = install_path("transitive", Shards::Helpers.exe("version"))
+      binary = install_path("transitive", Geode::Helpers.exe("version"))
       File.exists?(binary).should be_true
       `#{Process.quote(binary)}`.chomp.should eq("version @ 0.1.0")
     end
@@ -833,9 +833,9 @@ describe "install" do
     }
     with_shard(metadata) { run("shards install --no-color") }
 
-    foobar = File.join(application_path, "bin", Shards::Helpers.exe("foobar"))
-    baz = File.join(application_path, "bin", Shards::Helpers.exe("baz"))
-    foo = File.join(application_path, "bin", Shards::Helpers.exe("foo"))
+    foobar = File.join(application_path, "bin", Geode::Helpers.exe("foobar"))
+    baz = File.join(application_path, "bin", Geode::Helpers.exe("baz"))
+    foo = File.join(application_path, "bin", Geode::Helpers.exe("foo"))
 
     File.exists?(foobar).should be_true # "Expected to have installed bin/foobar executable"
     File.exists?(baz).should be_true    # "Expected to have installed bin/baz executable"
@@ -851,9 +851,9 @@ describe "install" do
     }
     with_shard(metadata) { run("shards install --no-color --skip-executables") }
 
-    foobar = File.join(application_path, "bin", Shards::Helpers.exe("foobar"))
-    baz = File.join(application_path, "bin", Shards::Helpers.exe("baz"))
-    foo = File.join(application_path, "bin", Shards::Helpers.exe("foo"))
+    foobar = File.join(application_path, "bin", Geode::Helpers.exe("foobar"))
+    baz = File.join(application_path, "bin", Geode::Helpers.exe("baz"))
+    foo = File.join(application_path, "bin", Geode::Helpers.exe("foo"))
 
     File.exists?(foobar).should be_false
     File.exists?(baz).should be_false
@@ -868,9 +868,9 @@ describe "install" do
     }
     with_shard(metadata) { run("shards install --no-color") }
 
-    foobar = File.join(application_path, "bin", Shards::Helpers.exe("foobar"))
-    baz = File.join(application_path, "bin", Shards::Helpers.exe("baz"))
-    foo = File.join(application_path, "bin", Shards::Helpers.exe("foo"))
+    foobar = File.join(application_path, "bin", Geode::Helpers.exe("foobar"))
+    baz = File.join(application_path, "bin", Geode::Helpers.exe("baz"))
+    foo = File.join(application_path, "bin", Geode::Helpers.exe("foo"))
 
     File.exists?(foobar).should be_true # "Expected to have installed bin/foobar executable"
     File.exists?(baz).should be_true    # "Expected to have installed bin/baz executable"

@@ -1,7 +1,7 @@
 require "./command"
 require "../molinillo_solver"
 
-module Shards
+module Geode
   module Commands
     class Update < Command
       def run(shards : Array(String))
@@ -15,7 +15,7 @@ module Shards
           solver.locks = locks.shards.reject { |d| shards.includes?(d.name) }
         end
 
-        solver.prepare(development: Shards.with_development?)
+        solver.prepare(development: Geode.with_development?)
 
         packages = handle_resolver_errors { solver.solve }
         install(packages)
@@ -58,7 +58,7 @@ module Shards
       end
 
       private def generate_lockfile?(packages)
-        !Shards.frozen?
+        !Geode.frozen?
       end
     end
   end

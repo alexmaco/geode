@@ -2,14 +2,14 @@ require "./spec_helper"
 require "../../src/package"
 
 private def resolver(name)
-  Shards::PathResolver.new(name, git_path(name))
+  Geode::PathResolver.new(name, git_path(name))
 end
 
 private def git_resolver(name)
-  Shards::GitResolver.new(name, git_path(name))
+  Geode::GitResolver.new(name, git_path(name))
 end
 
-module Shards
+module Geode
   describe Package do
     before_each do
       create_path_repository "library", "1.2.3"
@@ -69,7 +69,7 @@ module Shards
       package = Package.new("library", resolver("library"), version "1.2.3")
       package.install
 
-      Shards::Helpers.rm_rf(install_path("library"))
+      Geode::Helpers.rm_rf(install_path("library"))
       package.installed?.should be_false
     end
 

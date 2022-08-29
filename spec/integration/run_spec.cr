@@ -1,7 +1,7 @@
 require "./spec_helper"
 
 private def bin_path(name)
-  File.join(application_path, "bin", Shards::Helpers.exe(name))
+  File.join(application_path, "bin", Geode::Helpers.exe(name))
 end
 
 describe "run" do

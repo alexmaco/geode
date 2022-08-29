@@ -1,16 +1,16 @@
 require "colorize"
 require "log"
 
-module Shards
+module Geode
   class_property? colors = true
 end
 
 Log.setup_from_env(
   default_sources: "shards.*",
-  backend: Log::IOBackend.new(formatter: Shards::FORMATTER)
+  backend: Log::IOBackend.new(formatter: Geode::FORMATTER)
 )
 
-module Shards
+module Geode
   Log = ::Log.for(self)
 
   def self.set_warning_log_level

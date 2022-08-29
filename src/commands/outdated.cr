@@ -1,6 +1,6 @@
 require "./command"
 
-module Shards
+module Geode
   module Commands
     class Outdated < Command
       @prereleases = false
@@ -14,7 +14,7 @@ module Shards
         Log.info { "Resolving dependencies" }
 
         solver = MolinilloSolver.new(spec, override, prereleases: @prereleases)
-        solver.prepare(development: Shards.with_development?)
+        solver.prepare(development: Geode.with_development?)
 
         packages = handle_resolver_errors { solver.solve }
         packages.each { |package| analyze(package) }
@@ -29,7 +29,7 @@ module Shards
       end
 
       private def analyze(package)
-        unless installed_dep = Shards.info.installed[package.name]?
+        unless installed_dep = Geode.info.installed[package.name]?
           Log.warn { "#{package.name}: not installed" }
           return
         end
@@ -110,7 +110,7 @@ module Shards
 
       # FIXME: duplicates Check#has_dependencies?
       private def has_dependencies?
-        spec.dependencies.any? || (Shards.with_development? && spec.development_dependencies.any?)
+        spec.dependencies.any? || (Geode.with_development? && spec.development_dependencies.any?)
       end
 
       private def dependency_by_name(name : String)

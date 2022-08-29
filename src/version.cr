@@ -1,4 +1,4 @@
-module Shards
+module Geode
   VERSION    = {{ read_file("#{__DIR__}/../VERSION").chomp }}
   BUILD_SHA1 = {{ env("GEODE_CONFIG_BUILD_COMMIT") || "" }}
   {% if (t = env("SOURCE_DATE_EPOCH")) && !t.empty? %}

@@ -1,10 +1,10 @@
 require "./lock"
 
-class Shards::Info
+class Geode::Info
   getter install_path : String
   getter installed = Hash(String, Package).new
 
-  def initialize(@install_path = Shards.install_path)
+  def initialize(@install_path = Geode.install_path)
     reload
   end
 

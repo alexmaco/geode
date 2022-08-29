@@ -1,6 +1,6 @@
 require "./command"
 
-module Shards
+module Geode
   module Commands
     class Version < Command
       def self.run(path)

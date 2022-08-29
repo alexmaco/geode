@@ -1,10 +1,10 @@
 require "./spec_helper"
 
 private def resolver(name)
-  Shards::FossilResolver.new(name, fossil_url(name))
+  Geode::FossilResolver.new(name, fossil_url(name))
 end
 
-module Shards
+module Geode
   # Allow overriding `source` for the specs
   class FossilResolver
     def source=(@source)
@@ -49,10 +49,10 @@ module Shards
     end
 
     it "latest version for ref" do
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
         resolver("empty.fossil").latest_version_for_ref(fossil_branch "tip")
       end
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
         resolver("empty.fossil").latest_version_for_ref(nil)
       end
       resolver("unreleased.fossil").latest_version_for_ref(fossil_branch "trunk").should eq(version "0.1.0+fossil.commit.#{fossil_commits(:unreleased)[0]}")
@@ -62,13 +62,13 @@ module Shards
       resolver("unreleased-bm.fossil").latest_version_for_ref(nil).should eq(version "0.1.0+fossil.commit.#{fossil_commits("unreleased-bm")[0]}")
       resolver("library.fossil").latest_version_for_ref(fossil_branch "trunk").should eq(version "0.2.0+fossil.commit.#{fossil_commits(:library)[0]}")
       resolver("library.fossil").latest_version_for_ref(nil).should eq(version "0.2.0+fossil.commit.#{fossil_commits(:library)[0]}")
-      expect_raises(Shards::Error, "Could not find branch foo for shard \"library.fossil\" in the repository #{fossil_url(:library)}") do
+      expect_raises(Geode::Error, "Could not find branch foo for shard \"library.fossil\" in the repository #{fossil_url(:library)}") do
         resolver("library.fossil").latest_version_for_ref(fossil_branch "foo")
       end
     end
 
     it "versions for" do
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty.fossil\" at commit #{fossil_commits(:empty)[0]}") do
         resolver("empty.fossil").versions_for(Any)
       end
       resolver("library.fossil").versions_for(Any).should eq(versions ["0.0.1", "0.1.0", "0.1.1", "0.1.2", "0.2.0"])
@@ -160,9 +160,9 @@ module Shards
 
     it "#matches_ref" do
       resolver = FossilResolver.new("", "")
-      resolver.matches_ref?(FossilCommitRef.new("1234567890abcdef"), Shards::Version.new("0.1.0.+fossil.commit.1234567")).should be_true
-      resolver.matches_ref?(FossilCommitRef.new("1234567890abcdef"), Shards::Version.new("0.1.0.+fossil.commit.1234567890abcdef")).should be_true
-      resolver.matches_ref?(FossilCommitRef.new("1234567"), Shards::Version.new("0.1.0.+fossil.commit.1234567890abcdef")).should be_true
+      resolver.matches_ref?(FossilCommitRef.new("1234567890abcdef"), Geode::Version.new("0.1.0.+fossil.commit.1234567")).should be_true
+      resolver.matches_ref?(FossilCommitRef.new("1234567890abcdef"), Geode::Version.new("0.1.0.+fossil.commit.1234567890abcdef")).should be_true
+      resolver.matches_ref?(FossilCommitRef.new("1234567"), Geode::Version.new("0.1.0.+fossil.commit.1234567890abcdef")).should be_true
     end
   end
 end

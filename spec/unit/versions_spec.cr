@@ -1,14 +1,14 @@
 require "./spec_helper"
 
 private def resolve(versions : Array(String), req : String) : Array(String)
-  Shards::Versions.resolve(versions(versions), version_req req).map &.value
+  Geode::Versions.resolve(versions(versions), version_req req).map &.value
 end
 
 private def matches?(version : String, req : String) : Bool
-  Shards::Versions.matches?(version(version), version_req(req))
+  Geode::Versions.matches?(version(version), version_req(req))
 end
 
-module Shards
+module Geode
   describe Versions do
     #   class VersionsTest < Minitest::Test
     it "prerelease?" do

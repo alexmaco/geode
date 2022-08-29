@@ -1,4 +1,4 @@
-module Shards
+module Geode
   struct VersionReq
     getter patterns : Array(String)
 

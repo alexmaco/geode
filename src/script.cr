@@ -1,4 +1,4 @@
-module Shards
+module Geode
   module Script
     class Error < Error
     end

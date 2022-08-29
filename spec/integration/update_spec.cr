@@ -229,7 +229,7 @@ describe "update" do
   it "runs postinstall with transitive dependencies" do
     with_shard({dependencies: {transitive: "*"}}, {transitive: "0.1.0"}) do
       run "shards update"
-      binary = install_path("transitive", Shards::Helpers.exe("version"))
+      binary = install_path("transitive", Geode::Helpers.exe("version"))
       File.exists?(binary).should be_true
       `#{Process.quote(binary)}`.chomp.should eq("version @ 0.1.0")
     end
@@ -238,7 +238,7 @@ describe "update" do
   it "skips postinstall with transitive dependencies" do
     with_shard({dependencies: {transitive: "*"}}, {transitive: "0.1.0"}) do
       output = run "shards update --no-color --skip-postinstall"
-      binary = install_path("transitive", Shards::Helpers.exe("version"))
+      binary = install_path("transitive", Geode::Helpers.exe("version"))
       File.exists?(binary).should be_false
       output.should contain("Postinstall of transitive: #{{{ flag?(:win32) ? "crystal" : "${CRYSTAL:-crystal}" }}} build src/version.cr (skipped)")
     end
@@ -249,9 +249,9 @@ describe "update" do
     lock = {binary: "0.1.0"}
     with_shard(metadata, lock) { run("shards update --no-color") }
 
-    foobar = File.join(application_path, "bin", Shards::Helpers.exe("foobar"))
-    baz = File.join(application_path, "bin", Shards::Helpers.exe("baz"))
-    foo = File.join(application_path, "bin", Shards::Helpers.exe("foo"))
+    foobar = File.join(application_path, "bin", Geode::Helpers.exe("foobar"))
+    baz = File.join(application_path, "bin", Geode::Helpers.exe("baz"))
+    foo = File.join(application_path, "bin", Geode::Helpers.exe("foo"))
 
     File.exists?(foobar).should be_true # "Expected to have installed bin/foobar executable"
     File.exists?(baz).should be_true    # "Expected to have installed bin/baz executable"
@@ -267,9 +267,9 @@ describe "update" do
     lock = {binary: "0.1.0"}
     with_shard(metadata, lock) { run("shards update --no-color --skip-executables") }
 
-    foobar = File.join(application_path, "bin", Shards::Helpers.exe("foobar"))
-    baz = File.join(application_path, "bin", Shards::Helpers.exe("baz"))
-    foo = File.join(application_path, "bin", Shards::Helpers.exe("foo"))
+    foobar = File.join(application_path, "bin", Geode::Helpers.exe("foobar"))
+    baz = File.join(application_path, "bin", Geode::Helpers.exe("baz"))
+    foo = File.join(application_path, "bin", Geode::Helpers.exe("foo"))
 
     File.exists?(foobar).should be_false
     File.exists?(baz).should be_false
@@ -504,7 +504,7 @@ describe "update" do
       mtime = File.info("shard.lock").modification_time
       run "shards update"
       File.info("shard.lock").modification_time.should be >= mtime
-      Shards::Lock.from_file("shard.lock").version.should eq(Shards::Lock::CURRENT_VERSION)
+      Geode::Lock.from_file("shard.lock").version.should eq(Geode::Lock::CURRENT_VERSION)
     end
   end
 

@@ -1,7 +1,7 @@
 require "option_parser"
 require "./commands/*"
 
-module Shards
+module Geode
   def self.display_help_and_exit(opts)
     puts <<-HELP
       shards [<options>...] [<command>]
@@ -152,14 +152,14 @@ module Shards
 end
 
 begin
-  Shards.run
+  Geode.run
 rescue ex : OptionParser::InvalidOption
-  Shards::Log.fatal { ex.message }
+  Geode::Log.fatal { ex.message }
   exit 1
-rescue ex : Shards::ParseError
+rescue ex : Geode::ParseError
   ex.to_s(STDERR)
   exit 1
-rescue ex : Shards::Error
-  Shards::Log.error { ex.message }
+rescue ex : Geode::Error
+  Geode::Log.error { ex.message }
   exit 1
 end

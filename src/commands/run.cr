@@ -1,6 +1,6 @@
 require "./command"
 
-module Shards
+module Geode
   module Commands
     class Run < Command
       def run(targets, options, run_options)
@@ -28,7 +28,7 @@ module Shards
           Commands::Build.run(path, [target.name], options)
 
           Log.info { "Executing: #{target.name} #{run_options.join(' ')}" }
-          status = Process.run(File.join(Shards.bin_path, target.name), args: run_options, output: Process::Redirect::Inherit, error: Process::Redirect::Inherit)
+          status = Process.run(File.join(Geode.bin_path, target.name), args: run_options, output: Process::Redirect::Inherit, error: Process::Redirect::Inherit)
           unless status.success?
             exit status.exit_code
           end

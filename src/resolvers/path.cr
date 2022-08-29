@@ -1,6 +1,6 @@
 require "./resolver"
 
-module Shards
+module Geode
   class PathResolver < Resolver
     def self.key
       "path"

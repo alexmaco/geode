@@ -1,10 +1,10 @@
 require "./spec_helper"
 
 private def resolver(name)
-  Shards::HgResolver.new(name, hg_url(name))
+  Geode::HgResolver.new(name, hg_url(name))
 end
 
-module Shards
+module Geode
   # Allow overriding `source` for the specs
   class HgResolver
     def source=(@source)
@@ -48,10 +48,10 @@ module Shards
     end
 
     it "latest version for ref" do
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
         resolver("empty").latest_version_for_ref(hg_branch "default")
       end
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
         resolver("empty").latest_version_for_ref(nil)
       end
       resolver("unreleased").latest_version_for_ref(hg_branch "default").should eq(version "0.1.0+hg.commit.#{hg_commits(:unreleased)[0]}")
@@ -62,13 +62,13 @@ module Shards
       resolver("unreleased-bm").latest_version_for_ref(nil).should eq(version "0.1.0+hg.commit.#{hg_commits("unreleased-bm")[0]}")
       resolver("library").latest_version_for_ref(hg_branch "default").should eq(version "0.2.0+hg.commit.#{hg_commits(:library)[0]}")
       resolver("library").latest_version_for_ref(nil).should eq(version "0.2.0+hg.commit.#{hg_commits(:library)[0]}")
-      expect_raises(Shards::Error, "Could not find branch foo for shard \"library\" in the repository #{hg_url(:library)}") do
+      expect_raises(Geode::Error, "Could not find branch foo for shard \"library\" in the repository #{hg_url(:library)}") do
         resolver("library").latest_version_for_ref(hg_branch "foo")
       end
     end
 
     it "versions for" do
-      expect_raises(Shards::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
+      expect_raises(Geode::Error, "No shard.yml was found for shard \"empty\" at commit #{hg_commits(:empty)[0]}") do
         resolver("empty").versions_for(Any)
       end
       resolver("library").versions_for(Any).should eq(versions ["0.0.1", "0.1.0", "0.1.1", "0.1.2", "0.2.0"])
@@ -164,9 +164,9 @@ module Shards
 
     it "#matches_ref" do
       resolver = HgResolver.new("", "")
-      resolver.matches_ref?(HgCommitRef.new("1234567890abcdef"), Shards::Version.new("0.1.0.+hg.commit.1234567")).should be_true
-      resolver.matches_ref?(HgCommitRef.new("1234567890abcdef"), Shards::Version.new("0.1.0.+hg.commit.1234567890abcdef")).should be_true
-      resolver.matches_ref?(HgCommitRef.new("1234567"), Shards::Version.new("0.1.0.+hg.commit.1234567890abcdef")).should be_true
+      resolver.matches_ref?(HgCommitRef.new("1234567890abcdef"), Geode::Version.new("0.1.0.+hg.commit.1234567")).should be_true
+      resolver.matches_ref?(HgCommitRef.new("1234567890abcdef"), Geode::Version.new("0.1.0.+hg.commit.1234567890abcdef")).should be_true
+      resolver.matches_ref?(HgCommitRef.new("1234567"), Geode::Version.new("0.1.0.+hg.commit.1234567890abcdef")).should be_true
     end
   end
 end
